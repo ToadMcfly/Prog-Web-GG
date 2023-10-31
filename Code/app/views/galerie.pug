@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1 Galerie de Photos
+  // Barre de recherche par mots-clés
+  form(action='/photos/search', method='GET')
+    input(type='text', name='keyword', placeholder='Rechercher par mots-clés')
+    button(type='submit') Rechercher
+  // Liste des photos
+  ul
+    each photo in photos
+      li
+        a(href=`/photos/${photo._id}`) 
+          img(src=photo.cheminFichier, alt=photo.description)
+        p Description : #{photo.description}
+
+  

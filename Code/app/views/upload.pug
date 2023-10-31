@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  h1 Page d'Upload
+  form(id='upload-form', action='/photos/upload', method='POST', enctype='multipart/form-data')
+    label(for='photo') Sélectionnez une photo :
+    input(type='file', name='photo', id='photo', required)
+    
+    label(for='description') Description :
+    input(type='text', name='description', id='description')
+    
+    label(for='motsCles') Mots-clés (séparés par des virgules) :
+    input(type='text', name='motsCles', id='motsCles')
+    
+    button(type='submit') Télécharger
+
+  // Inclure Axios depuis un CDN
+  script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js')
+
+  // JavaScript pour gérer l'upload de photos
+  script.
+    document.querySelector('#upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      try {
+        const response = await axios.post('/photos/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        if (response.data.message) {
+        // Afficher un message de succès dans une boîte de dialogue modale
+        alert(response.data.message);
+      }
+        // Traite la réponse et met à jour l'interface utilisateur si nécessaire
+        console.log(response.data);
+      } catch (error) {
+
+         // Réinitialise le formulaire
+      e.target.reset();
+    } catch (error) {
+
+        // Gérer les erreurs
+        console.error('Erreur lors de l\'upload de la photo :', error);
+      }
+    })

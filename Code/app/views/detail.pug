@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  h1 Détails de la photo
+  img(src=photo.cheminFichier, alt=photo.description)
+  p Description : #{photo.description}
+  p Mots-clés : #{photo.motsCles.join(', ')}

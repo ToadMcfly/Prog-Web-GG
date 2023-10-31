@@ -1,0 +1,15 @@
+// Formulaire d'ajout de commentaire
+form(action=`/photos/${photo._id}/comments`, method='POST')
+  textarea(name='contenu', placeholder='Ajouter un commentaire...', required)
+  button(type='submit') Ajouter un Commentaire
+
+// Liste des commentaires
+ul
+  each comment in comments
+    li
+      p #{comment.contenu}
+      p Date de Publication : #{comment.datePublication}
+      // Bouton de suppression du commentaire (à ajouter si nécessaire)
+      // form(action=`/comments/${comment._id}`, method='DELETE')
+      //   button(type='submit') Supprimer
+

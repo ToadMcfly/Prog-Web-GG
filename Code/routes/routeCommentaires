@@ -1,0 +1,9 @@
+const express = require('express');
+const router = express.Router();
+const commentaireController = require('../app/controllers/commentaireController');
+
+// Routes pour les commentaires
+router.post('/:photoId/comments', commentaireController.addComment);
+router.delete('/comments/:commentId', commentaireController.deleteComment);
+
+module.exports = router;
