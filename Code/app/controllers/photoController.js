@@ -15,7 +15,7 @@ exports.uploadPhoto = async (req, res) => {
 
     const { description, motsCles } = req.body;
 
-    // Utilisez le chemin généré par Multer pour stocker dans la base de données
+    // Utilisation du chemin généré par Multer pour stocker dans la base de données
     const cheminFichier = req.file.filename;
 
     const newPhoto = new Photo({
@@ -24,14 +24,15 @@ exports.uploadPhoto = async (req, res) => {
       motsCles: motsCles.split(','),
     });
 
-    await newPhoto.save();
+    const savedPhoto = await newPhoto.save(); // Sauvegarde de la nouvelle photo dans la base de données
 
-    return res.status(201).json({ message: 'Photo téléchargée avec succès.' });
+    return res.status(201).json({ message: 'Photo téléchargée avec succès.', cheminFichier: newPhoto.cheminFichier });
   } catch (error) {
     console.error('Erreur lors de l\'upload de la photo :', error);
     return res.status(500).json({ message: 'Erreur lors de l\'upload de la photo.' });
   }
 };
+
 
 // Contrôleur pour la visualisation d'une photo individuelle
 exports.getPhoto = async (req, res) => {
