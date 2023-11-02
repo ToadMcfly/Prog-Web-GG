@@ -2,6 +2,9 @@ extends layout
 
 block content
   h1 Détails de la photo
-  img(src=photo.cheminFichier, alt=photo.description)
+  img(src=`/${photo.cheminFichier}`, alt=photo.description)
   p Description : #{photo.description}
   p Mots-clés : #{photo.motsCles.join(', ')}
+  p Date de publication : #{photo.datePublication.toLocaleString('fr')}
+  a(href=`/photos/${photo._id}/delete`, class='delete-button') Supprimer
+  

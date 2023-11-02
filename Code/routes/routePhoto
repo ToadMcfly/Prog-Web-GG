@@ -46,7 +46,7 @@ router.get('/:photoId', async (req, res) => {
 router.put('/:photoId', photoController.updatePhoto);
 
 // Route DELETE pour la suppression d'une photo
-router.delete('/:photoId', photoController.deletePhoto);
+router.get('/:photoId/delete', photoController.deletePhoto);
 
 // Route GET pour la recherche de photos par mots-clés
 router.get('/search', photoController.searchPhotos);

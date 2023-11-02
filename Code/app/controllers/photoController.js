@@ -26,7 +26,8 @@ exports.uploadPhoto = async (req, res) => {
 
     const savedPhoto = await newPhoto.save(); // Sauvegarde de la nouvelle photo dans la base de données
 
-    return res.status(201).json({ message: 'Photo téléchargée avec succès.', cheminFichier: newPhoto.cheminFichier });
+    return res.status(201).json({ message: 'Photo téléchargée avec succès.', 
+    cheminFichier: 'uploads/' + req.file.filename, });
   } catch (error) {
     console.error('Erreur lors de l\'upload de la photo :', error);
     return res.status(500).json({ message: 'Erreur lors de l\'upload de la photo.' });
@@ -66,7 +67,16 @@ exports.updatePhoto = async (req, res) => {
     photo.description = description;
     photo.motsCles = motsCles.split(',');
 
-    await photo.save();
+    const updatedFields = {
+       description,
+       motsCles
+    };
+
+    const result = await Photo.updateOne({ _id: photoId }, { $set: updatedFields });
+
+    if (result.nModified === 0) {
+    return res.status(404).json({ message: 'No photo updated. It might not exist or no changes were made.' });
+    }
 
     return res.status(200).json({ message: 'Informations de la photo mises à jour avec succès.' });
   } catch (error) {
@@ -85,14 +95,17 @@ exports.deletePhoto = async (req, res) => {
       return res.status(404).json({ message: 'Photo non trouvée.' });
     }
 
-    await photo.remove();
+    // Supprime la photo
+    await Photo.deleteOne({ _id: photoId })
 
-    return res.status(200).json({ message: 'Photo supprimée avec succès.' });
+    // Redirige l'utilisateur vers la page de la galerie après la suppression
+    res.redirect('/photos');
   } catch (error) {
     console.error('Erreur lors de la suppression de la photo :', error);
     return res.status(500).json({ message: 'Erreur lors de la suppression de la photo.' });
   }
 };
+
 
 // Contrôleur pour la recherche de photos par mots-clés
 exports.searchPhotos = async (req, res) => {

@@ -1,0 +1,16 @@
+.delete-button {
+    color: red;
+    margin-left: 10px;
+    text-decoration: none;
+  }
+  /* Styles par défaut pour le bouton "Téléverser" */
+#upload-button {
+    display: inline; /* Affiche en ligne sur les écrans larges */
+  }
+  
+  /* Styles pour les écrans étroits */
+  @media (max-width: 768px) {
+    #upload-button {
+      display: block; /* Afficher en bloc sur les écrans étroits */
+    }
+  }

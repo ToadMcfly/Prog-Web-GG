@@ -11,7 +11,7 @@ block content
     each photo in photos
       li
         a(href=`/photos/${photo._id}`) 
-          img(src=photo.cheminFichier, alt=photo.description)
+          img(src=`${photo.cheminFichier}`, alt=photo.description)
         p Description : #{photo.description}
 
   

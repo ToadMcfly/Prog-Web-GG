@@ -14,13 +14,9 @@ block content
     
     button(type='submit') Télécharger
 
-    // Élément pour afficher l'image après téléchargement
-    div#uploaded-image(style='display: none;')
-      img(id='uploaded-image-tag', alt='Uploaded Image')
-    
-  // Inclure Axios depuis un CDN
+       // Inclure Axios depuis un CDN
   script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js')
-
+    
   // JavaScript pour gérer l'upload de photos
   script.
     document.querySelector('#upload-form').addEventListener('submit', async (e) => {
@@ -37,13 +33,6 @@ block content
         if (response.data.message) {
           // Afficher un message de succès dans une boîte de dialogue modale
           alert(response.data.message);
-        }
-
-        // Mettre à jour l'interface utilisateur avec l'image uploadée
-        if (response.data.cheminFichier) {
-          const uploadedImage = document.querySelector('#uploaded-image-tag');
-          uploadedImage.src = response.data.cheminFichier;
-          document.querySelector('#uploaded-image').style.display = 'block';
         }
 
         // Réinitialise le formulaire

@@ -19,7 +19,12 @@ mongoose.connection.on('error', (err) => {
   console.error('Erreur de connexion à MongoDB :', err);
 });
 
+// Importation des routes
+const photoRoutes = require('./routes/routePhoto');
+const commentaireRoutes = require('./routes/routeCommentaires'); 
+
 // Configuration serveur Express
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
   console.log(`Le serveur Express est en cours d'exécution sur le port ${PORT}`);
@@ -27,11 +32,14 @@ app.listen(PORT, () => {
 
 // Configuration Pug comme moteur de modèle
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'app/views')); // Assurez-vous que le chemin des vues est correct
+app.set('views', path.join(__dirname, 'app/views'));
 
-// Définir la route de la galerie comme page d'accueil
+app.use('/photos', photoRoutes);
+app.use('/comments', commentaireRoutes);
+
+// Définit la route de la galerie comme page d'accueil
 app.get('/', (req, res) => {
-  // Rediriger vers la page de la galerie
+  // Redirection vers la page de la galerie
   res.redirect('/photos');
 });
 
@@ -40,16 +48,14 @@ app.get('/upload', (req, res) => {
   res.render('upload');
 });
 
-// Importation des routes
-const photoRoutes = require('./routes/routePhoto');
-const commentaireRoutes = require('./routes/routeCommentaires'); 
+// // Importation des routes
+// const photoRoutes = require('./routes/routePhoto');
+// const commentaireRoutes = require('./routes/routeCommentaires'); 
 
 // Configuration des routes sur des chemins d'URL appropriés
-app.use('/photos', photoRoutes);
-app.use('/comments', commentaireRoutes);
+// app.use('/photos', photoRoutes);
+// app.use('/comments', commentaireRoutes);
 
 app.use((req, res, next) => {
   res.status(404).send("Page introuvable");
 });
-
-app.use(express.static(path.join(__dirname, 'public')));
